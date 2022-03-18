@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: samplemvcapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: samplemvcapp
+  template:
+    metadata:
+      labels:
+        app: samplemvcapp
+        version: IMAGE_LABEL
+    spec:
+      containers:
+      - image: ACR_URL/samplemvcapp:IMAGE_LABEL
+        name: samplemvcapp
+        ports:
+        - containerPort: 80
+        resources: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: samplemvcapp
+spec:
+  selector:
+    app: samplemvcapp
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 80
+---
+# https://kubernetes.io/docs/concepts/services-networking/ingress/
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: samplemvcapp
+  annotations:
+    kubernetes.io/ingress.class: asson-http-application-routing
+spec:
+  rules:
+  # https://docs.microsoft.com/en-us/azure/aks/http-application-routing
+  - host: samplemvcapp.AKS_URL
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: samplemvcapp
+            port:
+              number: 80
+
