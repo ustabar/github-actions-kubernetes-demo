@@ -1,0 +1,42 @@
+name: Docker Build and Push, Kubernetes deploy
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Azure Container Registry Login
+      uses: Azure/docker-login@v1
+      with:
+        # Container registry username
+        username: ${{ secrets.ACR_USERNAME }}
+        # Container registry password
+        password: ${{ secrets.ACR_PASSWORD }}
+        # Container registry server url
+        login-server: ${{ secrets.ACR_URL }}
+
+    - name: Kubernetes Set Context
+      uses: Azure/k8s-set-context@v2
+      with:
+        # Acceptable values: generic or arc
+        cluster-type: generic
+        # Acceptable values: kubeconfig or service-account or service-principal
+        method: kubeconfig
+        # Contents of kubeconfig file
+        kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+    - name: Build the Docker image
+      run: 
+        docker build --tag ${{ secrets.ACR_URL }}/samplemvcapp:${{ github.sha }} .
+        docker push ${{ secrets.ACR_URL }}/samplemvcapp:${{ github.sha }}
+        sed -i'' -e 's/ACR_URL/${{ secrets.ACR_URL }}/g' -e 's/AKS_URL/${{ secrets.AKS_URL }}/g' -e 's/IMAGE_LABEL/${{ github.sha }}/g' k8s.yaml
+        kubectl apply -f k8s.yaml
