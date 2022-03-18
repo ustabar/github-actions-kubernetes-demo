@@ -5,6 +5,10 @@ on:
     branches:
     - main
 
+env:
+  CLUSTER_NAME: asd-cluster
+  CLUSTER_RESOURCE_GROUP: asdrg
+
 jobs:
 
   build:
@@ -25,12 +29,11 @@ jobs:
         login-server: ${{ secrets.ACR_URL }}
 
     - name: Kubernetes Set Context
-      uses: Azure/k8s-set-context@v2
+      uses: Azure/k8s-set-context@v1
       with:
-        # Acceptable values: kubeconfig or service-account or service-principal
-        method: kubeconfig
-        # Contents of kubeconfig file
-        kubeconfig: ${{ secrets.KUBE_CONFIG }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        cluster-name: ${{ env.CLUSTER_NAME }}
+        resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
 
     - name: Build the Docker image
       run: |
