@@ -27,8 +27,6 @@ jobs:
     - name: Kubernetes Set Context
       uses: Azure/k8s-set-context@v2
       with:
-        # Acceptable values: generic or arc
-        cluster-type: generic
         # Acceptable values: kubeconfig or service-account or service-principal
         method: kubeconfig
         # Contents of kubeconfig file
