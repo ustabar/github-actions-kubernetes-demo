@@ -1,0 +1,65 @@
+Dotnet Update On Ubuntu
+	https://docs.microsoft.com/en-us/dotnet/core/install/linux-ubuntu
+	
+	sudo apt-get update; \
+	sudo apt-get install -y apt-transport-https && \
+	sudo apt-get update && \
+	sudo apt-get install -y aspnetcore-runtime-6.0
+
+	dotnet new mvc --name SampleMvcApp --output .
+	----------------
+	Installed an ASP.NET Core HTTPS development certificate.
+	To trust the certificate run 'dotnet dev-certs https --trust' (Windows and macOS only).
+	Learn about HTTPS: https://aka.ms/dotnet-https
+	----------------
+	Write your first app: https://aka.ms/dotnet-hello-world
+	Find out what's new: https://aka.ms/dotnet-whats-new
+	Explore documentation: https://aka.ms/dotnet-docs
+	Report issues and find source on GitHub: https://github.com/dotnet/core
+	Use 'dotnet --help' to see available commands or visit: https://aka.ms/dotnet-cli
+	--------------------------------------------------------------------------------------
+	
+To solve RSA Key problem
+	https://gist.github.com/adamjohnson/5682757
+	
+	Copy the contents--exactly as it appears, with no extra spaces or lines--of id_rsa.pub and paste it 
+	into GitHub and/or BitBucket under the Account Settings > SSH Keys. 
+	NOTE: I like to give the SSH key a descriptive name, usually with the name of the workstation 
+	I'm on along with the date.
+	
+	git init
+	git add .
+	git commit -m "first commit"
+	git branch -M main
+	git remote add origin git@github.com:ustabar/github-actions-kubernetes-demo.git
+	git push -u origin main
+	cd ~/.ssh
+	nano id_rsa.pub
+	
+	git status
+	git push origin main
+	
+	
+Lab 1: Deploy using GitHub Actions into Azure Kubernetes Service
+	https://azure.github.io/kube-labs/1-github-actions.html#objective-of-the-lab
+
+	https://github.com/ustabar/github-actions-kubernetes-demo
+
+	https://github.com/marketplace/actions/deploy-to-kubernetes-cluster
+	
+Building and Deploying an AKS Cluster with GitHub Actions
+	https://www.youtube.com/watch?v=THWKBWKlfAk&t=34s
+	
+	
+Deploy a Go (golang) app to Azure Kubernetes Service
+	https://www.youtube.com/watch?v=Xhuvp2J-NcA
+	
+Automatic deploy to Kubernetes with Github Action
+	https://www.youtube.com/watch?v=GVY-zze0V_U	
+
+HTTP application routing
+	https://docs.microsoft.com/en-us/azure/aks/http-application-routing
+	
+Kubernetes set context
+	https://github.com/marketplace/actions/kubernetes-set-context
+
